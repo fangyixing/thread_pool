@@ -359,9 +359,9 @@ int is_thread_alive(pthread_t tid)
 /* 线程池中的线程，模拟处理业务 */
 void *process(void *arg)
 {
-    printf("thread 0x%x working on task %d\n ",(unsigned int)pthread_self(),*(int *)arg);
+    printf("thread 0x%x working on task %d\n ",(unsigned int)pthread_self(),(int)arg);
     sleep(1);
-    printf("task %d is end\n",*(int *)arg);
+    printf("task %d is end\n",(int)arg);
 
     return NULL;
 }
@@ -377,7 +377,7 @@ int main(void)
     for (i = 0; i < 20; i++) {
         num[i]=i;
         printf("add task %d\n",i);
-        threadpool_add(thp, process, (void*)&num[i]);     /* 向线程池中添加任务 */
+        threadpool_add(thp, process, (void*)num[i]);     /* 向线程池中添加任务 */
     }
     sleep(10);                                          /* 等子线程完成任务 */
     threadpool_destroy(thp);
